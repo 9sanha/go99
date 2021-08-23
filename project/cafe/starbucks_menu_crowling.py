@@ -1,13 +1,17 @@
-from pprint import pprint
+
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
+from pymongo import MongoClient
+client = MongoClient('localhost', 27017)
+db = client.dbsparta
+
 # 옵션 생성
 options = webdriver.ChromeOptions()
 # 창 숨기는 옵션 추가 / 옵션 추가 안하면 실시간으로 크롤링 하는 모습을 볼 수 있음
 options.add_argument("headless")
 
-# webdriver 실행 / 사전에 크롬 웹드라이버 설치 필요/https://chromedriver.chromium.org/downloads
+# webdriver 실행
 dr = webdriver.Chrome('E:/webdriver/chromedriver.exe', options=options)
 # target page 접근
 dr.get("https://www.starbucks.co.kr/menu/drink_list.do")
@@ -45,14 +49,15 @@ for prod in prod_cd:
     drink_info['caffeine'] = soup.select_one('.product_info_content .caffeine dd').get_text()
     drink_info['cholesterol'] = soup.select_one('.product_info_content .cholesterol dd').get_text()
     drink_info['chabo'] = soup.select_one('.product_info_content .chabo dd').get_text()
+
     #음료명, 음료 코드, 음료 사진 url 정보
     drink_info['name'] = prod[0]
     drink_info['code'] = code
     drink_info['img_url'] = prod[2]
-    res.append(drink_info)
+    db.starbucks.insert_one(drink_info)
 
     time.sleep(3)
 
-pprint(res)
+
 
 dr.quit()
