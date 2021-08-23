@@ -20,9 +20,8 @@ for o in url_list:
         for tr in trs:
             drink_info = dict()
             t = ':nth-child('+str(a)+') >'
-            drink_info['img_url'] = tr.select_one(t+'figure > img')
+            drink_info['img_url'] = 'https://www.coffeebeankorea.com/'+tr.select_one(t+'figure > img')['src']
             drink_info['name'] = tr.select_one(t + 'dl > dt > span.kor').text
-            drink_info['des'] = tr.select_one(t + ' dl > dd').text
             drink_info['kcal'] = tr.select_one(t + ' div > dl.bg1 > dt').text
             drink_info['sat_FAT'] = tr.select_one(t + ' div > dl.bg2 > dt').text
             drink_info['sodium'] = tr.select_one(t + ' div > dl.bg3 > dt').text #나트륨
