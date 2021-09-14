@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+
+    <script src="https://kit.fontawesome.com/3ccd95ba74.js" crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS 버전 바뀌면 이 코드 수시로 바꿔줘야 함-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="./detail.js" defer></script>
+
+    <style>
+        .one {
+
+
+            background-color: rgb(252, 233, 232);
+            width: auto;
+            height: 150px;
+        }
+        .search {
+
+            align-content: center;
+            text-align: center;
+        }
+
+        .search_window {
+            text-align: center;
+            position: relative;
+            width: 800px;
+            margin: 0 auto;
+        }
+
+        .search_btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .search_btn i {
+            padding: 17px 30px;
+        }
+
+
+        .right-box {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .write-btn {
+            position: relative;
+            left: 70px;
+        }
+        .posit-cmt{
+            position: relative;
+            left: 50px;
+        }
+
+    </style>
+
+    <script>
+
+    </script>
+
+</head>
+
+<body>
+
+
+<div class="one">
+    <div style="text-align: center; font-size: 35px; ">같이보실?<span class='right-box' type="button" onclick="profile()">프로필</span>
+    </div>
+    <div class="search_window">
+            <span class="search">
+                <input class="search__input" type="text" placeholder="검색"
+                       style="border-radius: 50px; width: 800px; height: 50px">
+
+            </span>
+        <span class="search_btn">
+             <i type="button" onclick="search_btn()" class="fas fa-search"></i>
+            </span>
+    </div>
+</div>
+
+<div class="b-example-divider"></div>
+
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="col-10 col-sm-8 col-lg-6">
+            <img src="../static/default.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700"
+                 height="500" loading="lazy">
+        </div>
+
+        <div class="col-lg-6">
+            <h2 class="display-5 fw-bold lh-1 mb-3">{{list.title}}</h2>
+            <h5 style="color: darkgrey"> &nbsp;&nbsp;장르 : {{list.genre}}</h5>
+            <h5 style="color: darkgrey"> &nbsp;&nbsp;평점 : {{list.grade}} </h5>
+            <p class="lead">Qufrns.</p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+</head>
+<body>
+<div>
+    <h1></h1>
+    <h1></h1>
+    <h1></h1>
+</div>
+</body>
+</html>
