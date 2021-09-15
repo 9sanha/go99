@@ -5,11 +5,11 @@ import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
+import uuid
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
-
 SECRET_KEY = 'SPARTA'
 client = MongoClient('localhost', 27017)
 db = client.dbsparta
@@ -71,7 +71,9 @@ def sign_up():
     age_receive = request.form['age_give']
     region_receive = request.form['region_give']
     gender_receive = request.form['gender_give']
+    user_id=uuid.uuid1()
     doc = {
+        "id":user_id,
         "username": username_receive,
         "password": password_hash,
         "age": age_receive,
@@ -98,15 +100,7 @@ def save_img():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
-@app.route('/posting', methods=['POST'])
-def posting():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        # 포스팅하기
-        return jsonify({"result": "success", 'msg': '포스팅 성공'})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
+
 
 #안건드려도 됩니다!
 @app.route("/get_posts", methods=['GET'])
@@ -139,7 +133,39 @@ def view_movie():
 
 @app.route('/detail/<title>')
 def detail(title):
-    list_recieve = request.args.get("list")
-    return render_template("detail.html", title=title,list=list_recieve)
+    movie_list = db.movie_info.find_one({'title': title}, {'_id': False})
+    return render_template("detail.html", list=movie_list)
+
+@app.route('/detail',methods=['GET'])
+def view_posting():
+    title = request.args.get('title')
+    posting_info_list = list(db.posting.find({'title': title}, {'_id': False}))
+    return jsonify({'posting_list': posting_info_list})
+
+@app.route('/posting', methods=['POST'])
+def posting():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.users.find_one({"username": payload["id"]})
+    today = datetime.now()
+    current_time = today.strftime('%Y-%m-%d-%H-%M-%S')
+    title_receive = request.form['title_give']
+    date_receive = request.form['date_give']
+    time_receive = request.form['time_give']
+    place_receive = request.form['place_give']
+    content_receive = request.form['content_give']
+    # 댓글 comment도 find해서 가져오기
+    doc = {
+        "title": title_receive,
+        "user_obj_id": user_info["username"],
+        "date": date_receive,
+        "time": time_receive,
+        "place": place_receive,
+        "current": current_time,
+        "contents": content_receive,
+        "is_open": 'True'
+    }
+    db.posting.insert_one(doc)
+    return jsonify({"result": "success", 'msg': '저장 완료!'})
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
